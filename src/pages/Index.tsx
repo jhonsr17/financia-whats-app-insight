@@ -1,14 +1,15 @@
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import DashboardStats from "@/components/dashboard/DashboardStats";
+import CategoryExpenseMap from "@/components/dashboard/CategoryExpenseMap";
 
 const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <DashboardHeader />
       
-      <main className="max-w-7xl mx-auto px-6 py-8">
+      <main className="max-w-7xl mx-auto px-6 py-8 space-y-12">
         <DashboardStats />
-        
+        <CategoryExpenseMap />
         {/* Sección de acceso rápido */}
         <div className="mt-12 space-y-6">
           <h3 className="text-2xl font-semibold text-foreground">Acceso Rápido</h3>
