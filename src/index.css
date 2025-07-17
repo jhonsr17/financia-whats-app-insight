@@ -8,23 +8,23 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 221 70% 95%;
-    --foreground: 217 92% 13%;
+    --background: 217 92% 13%;
+    --foreground: 158 100% 81%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 217 92% 13%;
+    --card: 217 80% 20%;
+    --card-foreground: 158 100% 81%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 217 92% 13%;
+    --popover: 217 80% 20%;
+    --popover-foreground: 158 100% 81%;
 
     --primary: 158 100% 81%;
     --primary-foreground: 217 92% 13%;
 
-    --secondary: 217 92% 13%;
+    --secondary: 217 80% 20%;
     --secondary-foreground: 158 100% 81%;
 
-    --muted: 78 100% 85%;
-    --muted-foreground: 217 92% 13%;
+    --muted: 217 70% 25%;
+    --muted-foreground: 158 40% 70%;
 
     --accent: 78 100% 85%;
     --accent-foreground: 217 92% 13%;
@@ -32,19 +32,16 @@ All colors MUST be HSL.
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 217 92% 13% / 0.1;
-    --input: 217 92% 13% / 0.1;
+    --border: 217 70% 25%;
+    --input: 217 70% 25%;
     --ring: 158 100% 81%;
 
     --radius: 0.75rem;
     
-    /* Custom dashboard colors */
-    --dashboard-primary: 158 100% 81%; /* #A0FAD5 */
-    --dashboard-dark: 217 92% 13%; /* #0D1D35 */
-    --dashboard-accent: 78 100% 85%; /* #D3FFB5 */
-    --dashboard-success: 122 50% 60%;
-    --dashboard-warning: 48 95% 53%;
-    --dashboard-danger: 0 84% 60%;
+    /* Neon decoration colors */
+    --neon-primary: 158 100% 81%; /* #A0FAD5 */
+    --neon-accent: 78 100% 85%; /* #D3FFB5 */
+    --neon-glow: 158 100% 81% / 0.4;
 
     --sidebar-background: 0 0% 98%;
 
@@ -109,5 +106,21 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .neon-glow {
+    box-shadow: 0 0 20px hsl(var(--neon-glow)), 0 0 40px hsl(var(--neon-glow)), 0 0 60px hsl(var(--neon-glow));
+  }
+  
+  .neon-border {
+    border: 1px solid hsl(var(--neon-primary));
+    box-shadow: 0 0 10px hsl(var(--neon-glow)), inset 0 0 10px hsl(var(--neon-glow));
+  }
+  
+  .neon-text {
+    color: hsl(var(--neon-primary));
+    text-shadow: 0 0 10px hsl(var(--neon-glow)), 0 0 20px hsl(var(--neon-glow));
   }
 }

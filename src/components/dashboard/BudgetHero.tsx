@@ -126,17 +126,19 @@ const BudgetHero = ({
   );
 
   return (
-    <div className="relative bg-gradient-to-br from-card via-card to-card/80 rounded-2xl border border-border p-8 md:p-12 shadow-2xl">
+    <div className="relative neon-border bg-card/90 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-2xl neon-glow">
+      {/* Decoración neon de fondo */}
+      <div className="absolute inset-0 bg-gradient-to-br from-neon-primary/5 to-neon-accent/5 rounded-2xl pointer-events-none" />
       {/* Botón de editar */}
       <Button 
         variant="ghost" 
         size="icon" 
-        className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10"
+        className="absolute top-4 right-4 text-muted-foreground hover:text-neon-primary hover:neon-glow transition-all duration-200 z-10"
       >
         <Edit3 className="h-5 w-5" />
       </Button>
 
-      <Carousel className="w-full max-w-4xl mx-auto">
+      <Carousel className="w-full max-w-4xl mx-auto relative z-10">
         <CarouselContent>
           {/* Slide 1: Presupuesto restante */}
           <CarouselItem>
@@ -170,8 +172,8 @@ const BudgetHero = ({
           </CarouselItem>
         </CarouselContent>
         
-        <CarouselPrevious className="left-4" />
-        <CarouselNext className="right-4" />
+        <CarouselPrevious className="left-4 neon-border bg-card/80 hover:bg-card hover:neon-glow transition-all duration-200" />
+        <CarouselNext className="right-4 neon-border bg-card/80 hover:bg-card hover:neon-glow transition-all duration-200" />
       </Carousel>
 
       {/* Tooltip */}

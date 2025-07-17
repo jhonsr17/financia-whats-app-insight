@@ -81,15 +81,15 @@ const CategoryExpenseCard = () => {
   };
 
   const getTrendColor = (trend: string) => {
-    if (trend === 'up') return 'text-red-500';
-    if (trend === 'down') return 'text-green-500';
+    if (trend === 'up') return 'text-red-400';
+    if (trend === 'down') return 'text-emerald-400';
     return 'text-muted-foreground';
   };
 
   return (
-    <Card className="bg-card border-border shadow-lg h-fit">
+    <Card className="neon-border bg-card/90 backdrop-blur-sm shadow-xl h-fit">
       <CardHeader className="pb-4">
-        <CardTitle className="text-xl font-semibold text-foreground">
+        <CardTitle className="text-xl font-semibold neon-text">
           ¿En qué gastas más?
         </CardTitle>
         <p className="text-sm text-muted-foreground">
@@ -101,10 +101,10 @@ const CategoryExpenseCard = () => {
         {categoryData.map((category, index) => (
           <div 
             key={index}
-            className="flex items-center justify-between p-3 sm:p-4 rounded-xl bg-muted/30 hover:bg-muted/50 transition-all duration-200 cursor-pointer group"
+            className="flex items-center justify-between p-3 sm:p-4 rounded-xl bg-muted/50 hover:bg-muted/70 transition-all duration-200 cursor-pointer group border border-muted-foreground/20 hover:border-muted-foreground/40"
           >
             <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-              <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors flex-shrink-0">
+              <div className="p-2 rounded-lg bg-slate-700/50 text-slate-300 group-hover:bg-slate-600/50 transition-colors flex-shrink-0">
                 {category.icon}
               </div>
               
@@ -120,16 +120,16 @@ const CategoryExpenseCard = () => {
                 </div>
                 
                 {/* Progress bar */}
-                <div className="w-full bg-border rounded-full h-1.5 sm:h-2 mb-2">
+                <div className="w-full bg-slate-800/50 rounded-full h-1.5 sm:h-2 mb-2">
                   <div 
-                    className="bg-primary h-1.5 sm:h-2 rounded-full transition-all duration-500"
+                    className="bg-gradient-to-r from-blue-400 to-blue-500 h-1.5 sm:h-2 rounded-full transition-all duration-500"
                     style={{ width: `${category.percentage}%` }}
                   />
                 </div>
                 
                 <div className="flex items-center justify-between text-xs sm:text-sm gap-2">
                   <span className="text-muted-foreground">{category.percentage}% del total</span>
-                  <Badge variant="secondary" className="text-xs flex-shrink-0">
+                  <Badge variant="secondary" className="text-xs flex-shrink-0 bg-slate-700/50 text-slate-300 border-slate-600">
                     {formatCurrency(category.value)}
                   </Badge>
                 </div>
@@ -139,7 +139,7 @@ const CategoryExpenseCard = () => {
         ))}
         
         {/* Summary footer */}
-        <div className="mt-4 sm:mt-6 pt-4 border-t border-border">
+        <div className="mt-4 sm:mt-6 pt-4 border-t border-muted-foreground/20">
           <div className="flex items-center justify-between text-xs sm:text-sm">
             <span className="text-muted-foreground">Mayor gasto:</span>
             <span className="font-semibold text-foreground text-right">

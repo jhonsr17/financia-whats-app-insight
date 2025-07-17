@@ -45,26 +45,29 @@ const WeeklyTrendChart = () => {
         cx={cx} 
         cy={cy} 
         r={6} 
-        fill="hsl(var(--primary))" 
-        stroke="white" 
+        fill="hsl(var(--neon-primary))" 
+        stroke="hsl(var(--background))" 
         strokeWidth={2}
-        className="hover:r-8 transition-all cursor-pointer"
+        className="hover:r-8 transition-all cursor-pointer drop-shadow-lg"
+        style={{
+          filter: 'drop-shadow(0 0 6px hsl(var(--neon-glow)))'
+        }}
       />
     );
   };
 
   return (
-    <div className="bg-card rounded-2xl border border-border p-6 shadow-lg">
+    <div className="neon-border bg-card/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl h-fit">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold text-foreground">
+        <h2 className="text-xl font-semibold neon-text">
           ¿Gastas más que la semana pasada?
         </h2>
         
         {/* Indicador de tendencia */}
-        <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${
+        <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 ${
           isIncreasing 
-            ? 'bg-red-500/10 text-red-500' 
-            : 'bg-green-500/10 text-green-500'
+            ? 'bg-red-500/10 text-red-400 border-red-400/30' 
+            : 'bg-emerald-500/10 text-emerald-400 border-emerald-400/30'
         }`}>
           {isIncreasing ? (
             <TrendingUp className="h-4 w-4" />
@@ -83,8 +86,8 @@ const WeeklyTrendChart = () => {
           <AreaChart data={weeklyData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
             <defs>
               <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.3}/>
-                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                <stop offset="5%" stopColor="hsl(var(--neon-primary))" stopOpacity={0.4}/>
+                <stop offset="95%" stopColor="hsl(var(--neon-primary))" stopOpacity={0.1}/>
               </linearGradient>
             </defs>
             <XAxis 
@@ -105,7 +108,7 @@ const WeeklyTrendChart = () => {
             <Area
               type="monotone"
               dataKey="amount"
-              stroke="hsl(var(--primary))"
+              stroke="hsl(var(--neon-primary))"
               fill="url(#colorAmount)"
               strokeWidth={3}
             />
@@ -124,10 +127,16 @@ const WeeklyTrendChart = () => {
             <Line
               type="monotone"
               dataKey="amount"
-              stroke="hsl(var(--primary))"
+              stroke="hsl(var(--neon-primary))"
               strokeWidth={3}
               dot={<CustomDot />}
-              activeDot={{ r: 8, stroke: 'white', strokeWidth: 2 }}
+              activeDot={{ 
+                r: 8, 
+                stroke: 'hsl(var(--background))', 
+                strokeWidth: 2,
+                fill: 'hsl(var(--neon-primary))',
+                filter: 'drop-shadow(0 0 8px hsl(var(--neon-glow)))'
+              }}
             />
           </AreaChart>
         </ResponsiveContainer>
