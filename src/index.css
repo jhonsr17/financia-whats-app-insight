@@ -20,13 +20,13 @@ All colors MUST be HSL.
     --primary: 158 100% 81%;
     --primary-foreground: 217 92% 13%;
 
-    --secondary: 217 80% 20%;
+    --secondary: 217 70% 25%;
     --secondary-foreground: 158 100% 81%;
 
     --muted: 217 70% 25%;
-    --muted-foreground: 158 40% 70%;
+    --muted-foreground: 210 15% 70%;
 
-    --accent: 78 100% 85%;
+    --accent: 158 100% 81%;
     --accent-foreground: 217 92% 13%;
 
     --destructive: 0 84% 60%;
@@ -38,10 +38,9 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
     
-    /* Neon decoration colors */
-    --neon-primary: 158 100% 81%; /* #A0FAD5 */
-    --neon-accent: 78 100% 85%; /* #D3FFB5 */
-    --neon-glow: 158 100% 81% / 0.4;
+    /* Landing page colors */
+    --neon-primary: 158 100% 81%; /* Verde claro de la landing */
+    --neon-glow: 158 100% 81% / 0.3;
 
     --sidebar-background: 0 0% 98%;
 
@@ -111,7 +110,7 @@ All colors MUST be HSL.
 
 @layer components {
   .neon-glow {
-    box-shadow: 0 0 20px hsl(var(--neon-glow)), 0 0 40px hsl(var(--neon-glow)), 0 0 60px hsl(var(--neon-glow));
+    box-shadow: 0 0 20px hsl(var(--neon-glow)), 0 0 40px hsl(var(--neon-glow));
   }
   
   .neon-border {
@@ -121,6 +120,6 @@ All colors MUST be HSL.
   
   .neon-text {
     color: hsl(var(--neon-primary));
-    text-shadow: 0 0 10px hsl(var(--neon-glow)), 0 0 20px hsl(var(--neon-glow));
+    text-shadow: 0 0 10px hsl(var(--neon-glow));
   }
 }

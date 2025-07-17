@@ -66,8 +66,8 @@ const WeeklyTrendChart = () => {
         {/* Indicador de tendencia */}
         <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-200 ${
           isIncreasing 
-            ? 'bg-red-500/10 text-red-400 border-red-400/30' 
-            : 'bg-emerald-500/10 text-emerald-400 border-emerald-400/30'
+            ? 'bg-primary/10 text-primary/80 border-primary/30' 
+            : 'bg-primary/10 text-primary border-primary/30'
         }`}>
           {isIncreasing ? (
             <TrendingUp className="h-4 w-4" />

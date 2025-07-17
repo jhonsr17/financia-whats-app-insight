@@ -32,15 +32,15 @@ const BudgetHero = ({
   
   // Determinar color basado en porcentaje restante
   const getStatusColor = () => {
-    if (percentageRemaining > 50) return "text-green-500";
-    if (percentageRemaining >= 20) return "text-yellow-500";
-    return "text-red-500";
+    if (percentageRemaining > 50) return "text-primary";
+    if (percentageRemaining >= 20) return "text-primary/80";
+    return "text-primary/60";
   };
   
   const getProgressColor = () => {
-    if (percentageRemaining > 50) return "bg-green-500";
-    if (percentageRemaining >= 20) return "bg-yellow-500";
-    return "bg-red-500";
+    if (percentageRemaining > 50) return "bg-primary";
+    if (percentageRemaining >= 20) return "bg-primary/80";
+    return "bg-primary/60";
   };
 
   const formatCurrency = (amount: number) => {
@@ -83,7 +83,7 @@ const BudgetHero = ({
           onMouseLeave={() => setShowTooltip(false)}
         >
           {formatCurrency(Math.abs(amount))}
-          {isOverBudget && showProgress && <span className="text-red-500">-</span>}
+          {isOverBudget && showProgress && <span className="text-primary/60">-</span>}
         </div>
 
         <p className="text-sm md:text-base text-muted-foreground">
@@ -109,7 +109,7 @@ const BudgetHero = ({
               {Math.round(percentageRemaining)}% restante
             </span>
             {percentageSpent > 100 ? (
-              <span className="flex items-center text-red-500 font-medium">
+              <span className="flex items-center text-primary/60 font-medium">
                 <TrendingDown className="h-4 w-4 mr-1" />
                 {Math.round(percentageSpent - 100)}% excedido
               </span>

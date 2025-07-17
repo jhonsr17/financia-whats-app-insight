@@ -81,8 +81,8 @@ const CategoryExpenseCard = () => {
   };
 
   const getTrendColor = (trend: string) => {
-    if (trend === 'up') return 'text-red-400';
-    if (trend === 'down') return 'text-emerald-400';
+    if (trend === 'up') return 'text-primary/70';
+    if (trend === 'down') return 'text-primary';
     return 'text-muted-foreground';
   };
 
@@ -104,7 +104,7 @@ const CategoryExpenseCard = () => {
             className="flex items-center justify-between p-3 sm:p-4 rounded-xl bg-muted/50 hover:bg-muted/70 transition-all duration-200 cursor-pointer group border border-muted-foreground/20 hover:border-muted-foreground/40"
           >
             <div className="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
-              <div className="p-2 rounded-lg bg-slate-700/50 text-slate-300 group-hover:bg-slate-600/50 transition-colors flex-shrink-0">
+              <div className="p-2 rounded-lg bg-muted/50 text-muted-foreground group-hover:bg-muted/70 transition-colors flex-shrink-0">
                 {category.icon}
               </div>
               
@@ -120,16 +120,16 @@ const CategoryExpenseCard = () => {
                 </div>
                 
                 {/* Progress bar */}
-                <div className="w-full bg-slate-800/50 rounded-full h-1.5 sm:h-2 mb-2">
+                <div className="w-full bg-muted/30 rounded-full h-1.5 sm:h-2 mb-2">
                   <div 
-                    className="bg-gradient-to-r from-blue-400 to-blue-500 h-1.5 sm:h-2 rounded-full transition-all duration-500"
+                    className="bg-primary h-1.5 sm:h-2 rounded-full transition-all duration-500"
                     style={{ width: `${category.percentage}%` }}
                   />
                 </div>
                 
                 <div className="flex items-center justify-between text-xs sm:text-sm gap-2">
                   <span className="text-muted-foreground">{category.percentage}% del total</span>
-                  <Badge variant="secondary" className="text-xs flex-shrink-0 bg-slate-700/50 text-slate-300 border-slate-600">
+                  <Badge variant="secondary" className="text-xs flex-shrink-0 bg-muted/50 text-foreground border-muted">
                     {formatCurrency(category.value)}
                   </Badge>
                 </div>
