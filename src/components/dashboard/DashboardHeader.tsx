@@ -8,7 +8,7 @@ const DashboardHeader = () => {
         <div className="flex items-center space-x-4">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-primary to-neon-accent neon-glow flex items-center justify-center">
-              <span className="text-background font-bold text-xl">F</span>
+              <span className="text-white font-bold text-xl">F</span>
             </div>
             <div>
               <h1 className="text-2xl font-bold neon-text">FinancIA</h1>
