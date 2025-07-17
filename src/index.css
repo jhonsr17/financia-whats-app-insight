@@ -8,43 +8,43 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 215 25% 15%;
-    --foreground: 210 40% 98%;
+    --background: 221 70% 95%;
+    --foreground: 217 92% 13%;
 
-    --card: 217 19% 24%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 217 92% 13%;
 
-    --popover: 217 19% 24%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 217 92% 13%;
 
-    --primary: 158 64% 52%;
-    --primary-foreground: 215 25% 15%;
+    --primary: 158 100% 81%;
+    --primary-foreground: 217 92% 13%;
 
-    --secondary: 217 32% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 217 92% 13%;
+    --secondary-foreground: 158 100% 81%;
 
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 78 100% 85%;
+    --muted-foreground: 217 92% 13%;
 
-    --accent: 158 64% 52%;
-    --accent-foreground: 215 25% 15%;
+    --accent: 78 100% 85%;
+    --accent-foreground: 217 92% 13%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217 32% 17%;
-    --input: 217 32% 17%;
-    --ring: 158 64% 52%;
+    --border: 217 92% 13% / 0.1;
+    --input: 217 92% 13% / 0.1;
+    --ring: 158 100% 81%;
 
     --radius: 0.75rem;
     
-    /* FinancIA custom colors */
-    --financia-navy: 215 25% 15%;
-    --financia-dark-card: 217 19% 24%;
-    --financia-green: 158 64% 52%;
-    --financia-blue: 217 91% 60%;
-    --financia-purple: 266 75% 35%;
-    --financia-gray: 217 10% 40%;
+    /* Custom dashboard colors */
+    --dashboard-primary: 158 100% 81%; /* #A0FAD5 */
+    --dashboard-dark: 217 92% 13%; /* #0D1D35 */
+    --dashboard-accent: 78 100% 85%; /* #D3FFB5 */
+    --dashboard-success: 122 50% 60%;
+    --dashboard-warning: 48 95% 53%;
+    --dashboard-danger: 0 84% 60%;
 
     --sidebar-background: 0 0% 98%;
 
@@ -64,33 +64,33 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 215 25% 15%;
-    --foreground: 210 40% 98%;
+    --background: 217 92% 13%;
+    --foreground: 158 100% 81%;
 
-    --card: 217 19% 24%;
-    --card-foreground: 210 40% 98%;
+    --card: 217 80% 20%;
+    --card-foreground: 158 100% 81%;
 
-    --popover: 217 19% 24%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 217 80% 20%;
+    --popover-foreground: 158 100% 81%;
 
-    --primary: 158 64% 52%;
-    --primary-foreground: 215 25% 15%;
+    --primary: 158 100% 81%;
+    --primary-foreground: 217 92% 13%;
 
-    --secondary: 217 32% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 217 80% 20%;
+    --secondary-foreground: 158 100% 81%;
 
-    --muted: 217 32% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 217 80% 20%;
+    --muted-foreground: 158 40% 70%;
 
-    --accent: 158 64% 52%;
-    --accent-foreground: 215 25% 15%;
+    --accent: 78 100% 85%;
+    --accent-foreground: 217 92% 13%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217 32% 17%;
-    --input: 217 32% 17%;
-    --ring: 158 64% 52%;
+    --border: 217 80% 20%;
+    --input: 217 80% 20%;
+    --ring: 158 100% 81%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
