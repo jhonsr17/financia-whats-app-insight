@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Edit3, TrendingUp, TrendingDown, Calendar, Clock } from "lucide-react";
+import { Edit3, TrendingUp, TrendingDown, Calendar, Clock, AlertTriangle, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -30,17 +30,50 @@ const BudgetHero = ({
   const percentageRemaining = (remainingAmount / totalBudget) * 100;
   const percentageSpent = (spentAmount / totalBudget) * 100;
   
-  // Determinar color basado en porcentaje restante
+  // Sistema de semáforo para estado financiero
+  const getFinancialStatus = () => {
+    if (percentageSpent <= 60) return 'good'; // Verde
+    if (percentageSpent <= 85) return 'warning'; // Amarillo
+    return 'danger'; // Rojo
+  };
+
+  const financialStatus = getFinancialStatus();
+  
+  // Determinar color basado en estado del semáforo
   const getStatusColor = () => {
-    if (percentageRemaining > 50) return "text-primary";
-    if (percentageRemaining >= 20) return "text-primary/80";
-    return "text-primary/60";
+    switch (financialStatus) {
+      case 'good': return "text-green-400";
+      case 'warning': return "text-yellow-400";  
+      case 'danger': return "text-red-400";
+      default: return "text-primary";
+    }
   };
   
   const getProgressColor = () => {
-    if (percentageRemaining > 50) return "bg-primary";
-    if (percentageRemaining >= 20) return "bg-primary/80";
-    return "bg-primary/60";
+    switch (financialStatus) {
+      case 'good': return "bg-green-400";
+      case 'warning': return "bg-yellow-400";
+      case 'danger': return "bg-red-400";
+      default: return "bg-primary";
+    }
+  };
+
+  const getStatusIcon = () => {
+    switch (financialStatus) {
+      case 'good': return <CheckCircle2 className="h-5 w-5 text-green-400" />;
+      case 'warning': return <AlertCircle className="h-5 w-5 text-yellow-400" />;
+      case 'danger': return <AlertTriangle className="h-5 w-5 text-red-400" />;
+      default: return null;
+    }
+  };
+
+  const getStatusMessage = () => {
+    switch (financialStatus) {
+      case 'good': return "¡Vas por buen camino!";
+      case 'warning': return "Moderación recomendada";
+      case 'danger': return "¡Atención necesaria!";
+      default: return "";
+    }
   };
 
   const formatCurrency = (amount: number) => {
@@ -142,13 +175,23 @@ const BudgetHero = ({
         <CarouselContent>
           {/* Slide 1: Presupuesto restante */}
           <CarouselItem>
-            <MetricSlide
-              title={isOverBudget ? "¡Presupuesto agotado!" : "Te quedan"}
-              amount={remainingAmount}
-              subtitle={`de ${formatCurrency(totalBudget)} presupuesto mensual`}
-              icon={<TrendingUp className="h-6 w-6 text-muted-foreground" />}
-              showProgress={true}
-            />
+            <div className="text-center space-y-6">
+              {/* Indicador de semáforo */}
+              <div className="flex items-center justify-center gap-3 mb-4">
+                {getStatusIcon()}
+                <span className={`text-sm font-medium ${getStatusColor()}`}>
+                  {getStatusMessage()}
+                </span>
+              </div>
+              
+              <MetricSlide
+                title={isOverBudget ? "¡Presupuesto agotado!" : "Te quedan"}
+                amount={remainingAmount}
+                subtitle={`de ${formatCurrency(totalBudget)} presupuesto mensual`}
+                icon={<TrendingUp className="h-6 w-6 text-muted-foreground" />}
+                showProgress={true}
+              />
+            </div>
           </CarouselItem>
 
           {/* Slide 2: Gasto diario */}
