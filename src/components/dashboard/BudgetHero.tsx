@@ -58,6 +58,15 @@ const BudgetHero = ({
     }
   };
 
+  const getOverlayColor = () => {
+    switch (financialStatus) {
+      case 'good': return "bg-green-400/10";
+      case 'warning': return "bg-yellow-400/10";
+      case 'danger': return "bg-red-400/10";
+      default: return "bg-transparent";
+    }
+  };
+
   const getStatusIcon = () => {
     switch (financialStatus) {
       case 'good': return <CheckCircle2 className="h-5 w-5 text-green-400" />;
@@ -162,6 +171,8 @@ const BudgetHero = ({
     <div className="relative neon-border bg-card/90 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-2xl neon-glow">
       {/* Decoración neon de fondo */}
       <div className="absolute inset-0 bg-gradient-to-br from-neon-primary/5 to-neon-accent/5 rounded-2xl pointer-events-none" />
+      {/* Overlay del semáforo */}
+      <div className={`absolute inset-0 ${getOverlayColor()} rounded-2xl pointer-events-none transition-colors duration-300`} />
       {/* Botón de editar */}
       <Button 
         variant="ghost" 
