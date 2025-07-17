@@ -1,15 +1,30 @@
 import { useState } from "react";
-import { Edit3, TrendingUp, TrendingDown } from "lucide-react";
+import { Edit3, TrendingUp, TrendingDown, Calendar, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 interface BudgetHeroProps {
   remainingAmount: number;
   totalBudget: number;
   spentAmount: number;
+  dailySpent?: number;
+  weeklySpent?: number;
 }
 
-const BudgetHero = ({ remainingAmount = 1234, totalBudget = 2500, spentAmount = 1266 }: BudgetHeroProps) => {
+const BudgetHero = ({ 
+  remainingAmount = 1234, 
+  totalBudget = 2500, 
+  spentAmount = 1266, 
+  dailySpent = 87, 
+  weeklySpent = 456 
+}: BudgetHeroProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
   
   const percentageRemaining = (remainingAmount / totalBudget) * 100;
@@ -39,40 +54,44 @@ const BudgetHero = ({ remainingAmount = 1234, totalBudget = 2500, spentAmount = 
 
   const isOverBudget = remainingAmount < 0;
 
-  return (
-    <div className="relative bg-gradient-to-br from-card via-card to-card/80 rounded-2xl border border-border p-8 md:p-12 shadow-2xl">
-      {/* Botón de editar */}
-      <Button 
-        variant="ghost" 
-        size="icon" 
-        className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
-      >
-        <Edit3 className="h-5 w-5" />
-      </Button>
-
-      <div className="text-center space-y-6">
-        {/* Texto principal */}
-        <div className="space-y-2">
+  // Componente para slide individual
+  const MetricSlide = ({ 
+    title, 
+    amount, 
+    subtitle, 
+    icon, 
+    showProgress = false 
+  }: {
+    title: string;
+    amount: number;
+    subtitle: string;
+    icon: React.ReactNode;
+    showProgress?: boolean;
+  }) => (
+    <div className="text-center space-y-6">
+      <div className="space-y-2">
+        <div className="flex items-center justify-center gap-2">
+          {icon}
           <h1 className="text-lg md:text-xl text-muted-foreground font-medium">
-            {isOverBudget ? "¡Presupuesto agotado!" : "Te quedan"}
+            {title}
           </h1>
-          
-          {/* Monto principal */}
-          <div 
-            className={`text-5xl md:text-6xl lg:text-7xl font-bold ${getStatusColor()} cursor-pointer transition-all duration-200 hover:scale-105 ${isOverBudget ? 'animate-pulse' : ''}`}
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
-          >
-            {formatCurrency(Math.abs(remainingAmount))}
-            {isOverBudget && <span className="text-red-500">-</span>}
-          </div>
-
-          <p className="text-sm md:text-base text-muted-foreground">
-            de {formatCurrency(totalBudget)} presupuesto mensual
-          </p>
+        </div>
+        
+        <div 
+          className={`text-5xl md:text-6xl lg:text-7xl font-bold ${getStatusColor()} cursor-pointer transition-all duration-200 hover:scale-105 ${isOverBudget && showProgress ? 'animate-pulse' : ''}`}
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+        >
+          {formatCurrency(Math.abs(amount))}
+          {isOverBudget && showProgress && <span className="text-red-500">-</span>}
         </div>
 
-        {/* Barra de progreso */}
+        <p className="text-sm md:text-base text-muted-foreground">
+          {subtitle}
+        </p>
+      </div>
+
+      {showProgress && (
         <div className="space-y-3 max-w-md mx-auto">
           <div className="relative">
             <Progress 
@@ -102,16 +121,67 @@ const BudgetHero = ({ remainingAmount = 1234, totalBudget = 2500, spentAmount = 
             )}
           </div>
         </div>
+      )}
+    </div>
+  );
 
-        {/* Tooltip */}
-        {showTooltip && (
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 bg-popover border border-border rounded-lg p-3 shadow-lg z-10">
-            <p className="text-sm text-popover-foreground">
-              Llevas gastado {formatCurrency(spentAmount)} este mes
-            </p>
-          </div>
-        )}
-      </div>
+  return (
+    <div className="relative bg-gradient-to-br from-card via-card to-card/80 rounded-2xl border border-border p-8 md:p-12 shadow-2xl">
+      {/* Botón de editar */}
+      <Button 
+        variant="ghost" 
+        size="icon" 
+        className="absolute top-4 right-4 text-muted-foreground hover:text-foreground z-10"
+      >
+        <Edit3 className="h-5 w-5" />
+      </Button>
+
+      <Carousel className="w-full max-w-4xl mx-auto">
+        <CarouselContent>
+          {/* Slide 1: Presupuesto restante */}
+          <CarouselItem>
+            <MetricSlide
+              title={isOverBudget ? "¡Presupuesto agotado!" : "Te quedan"}
+              amount={remainingAmount}
+              subtitle={`de ${formatCurrency(totalBudget)} presupuesto mensual`}
+              icon={<TrendingUp className="h-6 w-6 text-muted-foreground" />}
+              showProgress={true}
+            />
+          </CarouselItem>
+
+          {/* Slide 2: Gasto diario */}
+          <CarouselItem>
+            <MetricSlide
+              title="Has gastado hoy"
+              amount={dailySpent}
+              subtitle="en gastos del día de hoy"
+              icon={<Clock className="h-6 w-6 text-muted-foreground" />}
+            />
+          </CarouselItem>
+
+          {/* Slide 3: Gasto semanal */}
+          <CarouselItem>
+            <MetricSlide
+              title="Has gastado esta semana"
+              amount={weeklySpent}
+              subtitle="en gastos de esta semana"
+              icon={<Calendar className="h-6 w-6 text-muted-foreground" />}
+            />
+          </CarouselItem>
+        </CarouselContent>
+        
+        <CarouselPrevious className="left-4" />
+        <CarouselNext className="right-4" />
+      </Carousel>
+
+      {/* Tooltip */}
+      {showTooltip && (
+        <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-4 bg-popover border border-border rounded-lg p-3 shadow-lg z-10">
+          <p className="text-sm text-popover-foreground">
+            Llevas gastado {formatCurrency(spentAmount)} este mes
+          </p>
+        </div>
+      )}
     </div>
   );
 };

@@ -15,6 +15,8 @@ const Index = () => {
             remainingAmount={1234}
             totalBudget={2500}
             spentAmount={1266}
+            dailySpent={87}
+            weeklySpent={456}
           />
         </div>
 
