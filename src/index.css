@@ -11,19 +11,19 @@ All colors MUST be HSL.
     --background: 217 92% 13%;
     --foreground: 158 100% 81%;
 
-    --card: 220 13% 18%;
-    --card-foreground: 210 40% 95%;
+    --card: 210 45% 16%;
+    --card-foreground: 158 100% 81%;
 
-    --popover: 220 13% 18%;
-    --popover-foreground: 210 40% 95%;
+    --popover: 210 45% 16%;
+    --popover-foreground: 158 100% 81%;
 
     --primary: 158 100% 81%;
     --primary-foreground: 217 92% 13%;
 
-    --secondary: 220 13% 22%;
-    --secondary-foreground: 210 40% 95%;
+    --secondary: 205 50% 20%;
+    --secondary-foreground: 158 100% 81%;
 
-    --muted: 220 13% 22%;
+    --muted: 205 50% 20%;
     --muted-foreground: 210 15% 70%;
 
     --accent: 158 100% 81%;
@@ -32,8 +32,8 @@ All colors MUST be HSL.
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 25%;
-    --input: 220 13% 22%;
+    --border: 200 40% 25%;
+    --input: 205 50% 18%;
     --ring: 158 100% 81%;
 
     --radius: 0.75rem;
@@ -63,19 +63,19 @@ All colors MUST be HSL.
     --background: 217 92% 13%;
     --foreground: 158 100% 81%;
 
-    --card: 220 13% 18%;
-    --card-foreground: 210 40% 95%;
+    --card: 210 45% 16%;
+    --card-foreground: 158 100% 81%;
 
-    --popover: 220 13% 18%;
-    --popover-foreground: 210 40% 95%;
+    --popover: 210 45% 16%;
+    --popover-foreground: 158 100% 81%;
 
     --primary: 158 100% 81%;
     --primary-foreground: 217 92% 13%;
 
-    --secondary: 220 13% 22%;
-    --secondary-foreground: 210 40% 95%;
+    --secondary: 205 50% 20%;
+    --secondary-foreground: 158 100% 81%;
 
-    --muted: 220 13% 22%;
+    --muted: 205 50% 20%;
     --muted-foreground: 210 15% 70%;
 
     --accent: 158 100% 81%;
@@ -84,8 +84,8 @@ All colors MUST be HSL.
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 25%;
-    --input: 220 13% 22%;
+    --border: 200 40% 25%;
+    --input: 205 50% 18%;
     --ring: 158 100% 81%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
