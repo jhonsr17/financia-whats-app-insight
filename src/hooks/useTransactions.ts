@@ -42,19 +42,27 @@ export const useTransactions = () => {
       }
       
       console.log('Transacciones cargadas:', data);
+      console.log('Usuario ID:', user.id);
       
-      // Debug de cálculo de gastos de hoy
-      const today = new Date();
-      const todayTransactions = data?.filter(t => {
-        if (!t.creado_en || t.tipo !== 'gasto') return false;
-        const transactionDate = new Date(t.creado_en);
-        const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        const transactionNormalized = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), transactionDate.getDate());
-        return todayNormalized.getTime() === transactionNormalized.getTime();
-      }) || [];
-      
-      console.log('Transacciones de hoy:', todayTransactions);
-      console.log('Total gastos de hoy:', todayTransactions.reduce((sum, t) => sum + (t.valor || 0), 0));
+      // Debug detallado
+      if (data && data.length > 0) {
+        const today = new Date();
+        console.log('Fecha de hoy:', today.toDateString());
+        
+        data.forEach(t => {
+          const transactionDate = new Date(t.creado_en);
+          console.log(`Transacción: ${t.valor} COP, fecha: ${transactionDate.toDateString()}, tipo: ${t.tipo}`);
+        });
+        
+        const todayTransactions = data.filter(t => {
+          if (!t.creado_en || t.tipo !== 'gasto') return false;
+          const transactionDate = new Date(t.creado_en);
+          return today.toDateString() === transactionDate.toDateString();
+        });
+        
+        console.log('Gastos de hoy encontrados:', todayTransactions);
+        console.log('Total gastos de hoy:', todayTransactions.reduce((sum, t) => sum + (t.valor || 0), 0));
+      }
       
       setTransactions(data || []);
     } catch (error) {
@@ -84,27 +92,25 @@ export const useTransactions = () => {
     .filter(t => t.tipo === 'gasto')
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
+  // Gasto de hoy - calculado usando fecha local del usuario
   const todaySpent = transactions
     .filter(t => {
       if (!t.creado_en || t.tipo !== 'gasto') return false;
       const today = new Date();
       const transactionDate = new Date(t.creado_en);
       
-      // Normalizar las fechas a medianoche para comparar solo año, mes y día
-      const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-      const transactionNormalized = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), transactionDate.getDate());
-      
-      return todayNormalized.getTime() === transactionNormalized.getTime();
+      return today.toDateString() === transactionDate.toDateString();
     })
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
+  // Gasto de la semana (últimos 7 días)
   const weeklySpent = transactions
     .filter(t => {
       if (!t.creado_en || t.tipo !== 'gasto') return false;
       const today = new Date();
-      const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
       const transactionDate = new Date(t.creado_en);
-      return transactionDate >= sevenDaysAgo && transactionDate <= today;
+      const daysDifference = Math.floor((today.getTime() - transactionDate.getTime()) / (1000 * 60 * 60 * 24));
+      return daysDifference >= 0 && daysDifference < 7;
     })
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
