@@ -6,12 +6,12 @@ import AddExpenseForm from "@/components/dashboard/AddExpenseForm";
 import { useTransactions } from "@/hooks/useTransactions";
 
 const Index = () => {
-  const { totalSpent, todaySpent, weeklySpent, loading, transactions, refetch } = useTransactions();
+  const { totalSpent, loading, transactions, refetch } = useTransactions();
   
   const totalBudget = 2500000; // $2.5M COP como presupuesto base
   const remainingAmount = totalBudget - totalSpent;
 
-  console.log('Estado del dashboard actualizado:', { totalSpent, todaySpent, weeklySpent, loading, transactionsCount: transactions.length });
+  console.log('Estado del dashboard actualizado:', { totalSpent, loading, transactionsCount: transactions.length });
 
   if (loading) {
     return (
@@ -78,8 +78,6 @@ const Index = () => {
             remainingAmount={remainingAmount}
             totalBudget={totalBudget}
             spentAmount={totalSpent}
-            dailySpent={todaySpent}
-            weeklySpent={weeklySpent}
           />
         </div>
 

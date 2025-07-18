@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Edit3, TrendingUp, TrendingDown, Calendar, Clock, AlertTriangle, CheckCircle2, AlertCircle } from "lucide-react";
+import { Edit3, TrendingUp, TrendingDown, AlertTriangle, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
@@ -14,16 +14,12 @@ interface BudgetHeroProps {
   remainingAmount: number;
   totalBudget: number;
   spentAmount: number;
-  dailySpent?: number;
-  weeklySpent?: number;
 }
 
 const BudgetHero = ({ 
   remainingAmount = 1234, 
   totalBudget = 2500, 
-  spentAmount = 1266, 
-  dailySpent = 87, 
-  weeklySpent = 456 
+  spentAmount = 1266
 }: BudgetHeroProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
   
@@ -205,25 +201,6 @@ const BudgetHero = ({
             </div>
           </CarouselItem>
 
-          {/* Slide 2: Gasto diario */}
-          <CarouselItem>
-            <MetricSlide
-              title="Has gastado hoy"
-              amount={dailySpent}
-              subtitle="en gastos del día de hoy"
-              icon={<Clock className="h-6 w-6 text-muted-foreground" />}
-            />
-          </CarouselItem>
-
-          {/* Slide 3: Gasto semanal */}
-          <CarouselItem>
-            <MetricSlide
-              title="Has gastado esta semana"
-              amount={weeklySpent}
-              subtitle="en gastos de esta semana"
-              icon={<Calendar className="h-6 w-6 text-muted-foreground" />}
-            />
-          </CarouselItem>
         </CarouselContent>
         
         <CarouselPrevious className="left-4 neon-border bg-card/80 hover:bg-card hover:neon-glow transition-all duration-200" />
