@@ -42,7 +42,20 @@ export const useTransactions = () => {
       }
       
       console.log('Transacciones cargadas:', data);
-      console.log('Total gastos calculados - Hoy:', data?.filter(t => t.tipo === 'gasto' && t.creado_en && new Date(t.creado_en).toDateString() === new Date().toDateString()).reduce((sum, t) => sum + (t.valor || 0), 0));
+      
+      // Debug de cálculo de gastos de hoy
+      const today = new Date();
+      const todayTransactions = data?.filter(t => {
+        if (!t.creado_en || t.tipo !== 'gasto') return false;
+        const transactionDate = new Date(t.creado_en);
+        const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+        const transactionNormalized = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), transactionDate.getDate());
+        return todayNormalized.getTime() === transactionNormalized.getTime();
+      }) || [];
+      
+      console.log('Transacciones de hoy:', todayTransactions);
+      console.log('Total gastos de hoy:', todayTransactions.reduce((sum, t) => sum + (t.valor || 0), 0));
+      
       setTransactions(data || []);
     } catch (error) {
       console.error('Error fetching transactions:', error);
@@ -77,10 +90,11 @@ export const useTransactions = () => {
       const today = new Date();
       const transactionDate = new Date(t.creado_en);
       
-      // Comparar año, mes y día exactos
-      return today.getFullYear() === transactionDate.getFullYear() &&
-             today.getMonth() === transactionDate.getMonth() &&
-             today.getDate() === transactionDate.getDate();
+      // Normalizar las fechas a medianoche para comparar solo año, mes y día
+      const todayNormalized = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      const transactionNormalized = new Date(transactionDate.getFullYear(), transactionDate.getMonth(), transactionDate.getDate());
+      
+      return todayNormalized.getTime() === transactionNormalized.getTime();
     })
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
