@@ -1,7 +1,6 @@
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import BudgetHero from "@/components/dashboard/BudgetHero";
 import CategoryExpenseCard from "@/components/dashboard/CategoryExpenseCard";
-import WeeklyTrendChart from "@/components/dashboard/WeeklyTrendChart";
 import AddExpenseForm from "@/components/dashboard/AddExpenseForm";
 import { useTransactions } from "@/hooks/useTransactions";
 
@@ -52,7 +51,6 @@ const Index = () => {
               <ul className="mt-4 text-left text-sm space-y-2">
                 <li>• Presupuesto restante del mes</li>
                 <li>• Gastos por categoría</li>
-                <li>• Tendencias semanales</li>
               </ul>
             </div>
           </div>
@@ -81,10 +79,9 @@ const Index = () => {
           />
         </div>
 
-        {/* Métricas 2 y 3: Gastos por categoría + Tendencia semanal */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
+        {/* Métrica 2: Gastos por categoría */}
+        <div className="flex justify-center">
           <CategoryExpenseCard />
-          <WeeklyTrendChart />
         </div>
 
         {/* Formulario para agregar gastos */}
