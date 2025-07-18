@@ -42,6 +42,7 @@ export const useTransactions = () => {
       }
       
       console.log('Transacciones cargadas:', data);
+      console.log('Total gastos calculados - Hoy:', data?.filter(t => t.tipo === 'gasto' && t.creado_en && new Date(t.creado_en).toDateString() === new Date().toDateString()).reduce((sum, t) => sum + (t.valor || 0), 0));
       setTransactions(data || []);
     } catch (error) {
       console.error('Error fetching transactions:', error);
@@ -73,9 +74,13 @@ export const useTransactions = () => {
   const todaySpent = transactions
     .filter(t => {
       if (!t.creado_en || t.tipo !== 'gasto') return false;
-      const today = new Date().toDateString();
-      const transactionDate = new Date(t.creado_en).toDateString();
-      return today === transactionDate;
+      const today = new Date();
+      const transactionDate = new Date(t.creado_en);
+      
+      // Comparar año, mes y día exactos
+      return today.getFullYear() === transactionDate.getFullYear() &&
+             today.getMonth() === transactionDate.getMonth() &&
+             today.getDate() === transactionDate.getDate();
     })
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
@@ -83,9 +88,9 @@ export const useTransactions = () => {
     .filter(t => {
       if (!t.creado_en || t.tipo !== 'gasto') return false;
       const today = new Date();
-      const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
       const transactionDate = new Date(t.creado_en);
-      return transactionDate >= weekAgo && transactionDate <= today;
+      return transactionDate >= sevenDaysAgo && transactionDate <= today;
     })
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
