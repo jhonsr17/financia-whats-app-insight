@@ -150,6 +150,8 @@ export const useTransactions = () => {
     return weeks;
   };
 
+  console.log('Métricas calculadas:', { totalSpent, todaySpent, weeklySpent });
+
   return {
     transactions,
     loading,

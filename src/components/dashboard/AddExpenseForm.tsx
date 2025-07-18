@@ -69,9 +69,17 @@ export default function AddExpenseForm({ onExpenseAdded }: AddExpenseFormProps) 
 
       if (error) throw error;
 
+      console.log('Gasto registrado exitosamente:', {
+        valor: parseFloat(valor),
+        categoria,
+        descripcion,
+        tipo: 'gasto',
+        usuario_id: user.id
+      });
+
       toast({
         title: "Éxito",
-        description: "Gasto registrado correctamente",
+        description: `Gasto de $${parseFloat(valor).toLocaleString()} COP registrado correctamente`,
       });
 
       // Limpiar formulario
@@ -79,7 +87,8 @@ export default function AddExpenseForm({ onExpenseAdded }: AddExpenseFormProps) 
       setCategoria('');
       setDescripcion('');
 
-      // Actualizar los datos
+      // Actualizar los datos inmediatamente
+      console.log('Actualizando métricas...');
       onExpenseAdded();
     } catch (error) {
       console.error('Error registrando gasto:', error);

@@ -11,7 +11,7 @@ const Index = () => {
   const totalBudget = 2500000; // $2.5M COP como presupuesto base
   const remainingAmount = totalBudget - totalSpent;
 
-  console.log('Estado del dashboard:', { totalSpent, todaySpent, weeklySpent, loading, transactionsCount: transactions.length });
+  console.log('Estado del dashboard actualizado:', { totalSpent, todaySpent, weeklySpent, loading, transactionsCount: transactions.length });
 
   if (loading) {
     return (
