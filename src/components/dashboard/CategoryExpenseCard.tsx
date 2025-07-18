@@ -7,8 +7,10 @@ import {
   Zap, 
   Gamepad2, 
   TrendingUp,
-  TrendingDown
+  TrendingDown,
+  Package
 } from 'lucide-react';
+import { useTransactions } from "@/hooks/useTransactions";
 
 interface CategoryData {
   name: string;
@@ -20,50 +22,57 @@ interface CategoryData {
 }
 
 const CategoryExpenseCard = () => {
-  const categoryData: CategoryData[] = [
-    {
-      name: 'Comida',
-      value: 450,
-      icon: <Utensils className="h-5 w-5" />,
-      percentage: 32,
-      trend: 'up',
-      trendValue: 15
-    },
-    {
-      name: 'Transporte',
-      value: 350,
-      icon: <Car className="h-5 w-5" />,
-      percentage: 25,
-      trend: 'down',
-      trendValue: 8
-    },
-    {
-      name: 'Entretenimiento',
-      value: 280,
-      icon: <Gamepad2 className="h-5 w-5" />,
-      percentage: 20,
-      trend: 'up',
-      trendValue: 22
-    },
-    {
-      name: 'Vivienda',
-      value: 150,
-      icon: <Home className="h-5 w-5" />,
-      percentage: 11,
-      trend: 'stable',
-      trendValue: 0
-    },
-    {
-      name: 'Servicios',
-      value: 100,
-      icon: <Zap className="h-5 w-5" />,
-      percentage: 7,
-      trend: 'down',
-      trendValue: 5
-    }
-  ];
+  const { expensesByCategory } = useTransactions();
 
-  const totalAmount = categoryData.reduce((sum, item) => sum + item.value, 0);
+  const getCategoryIcon = (category: string) => {
+    const normalizedCategory = category.toLowerCase();
+    if (normalizedCategory.includes('comida') || normalizedCategory.includes('alimentación')) {
+      return <Utensils className="h-5 w-5" />;
+    }
+    if (normalizedCategory.includes('transporte')) {
+      return <Car className="h-5 w-5" />;
+    }
+    if (normalizedCategory.includes('entretenimiento') || normalizedCategory.includes('ocio')) {
+      return <Gamepad2 className="h-5 w-5" />;
+    }
+    if (normalizedCategory.includes('vivienda') || normalizedCategory.includes('hogar')) {
+      return <Home className="h-5 w-5" />;
+    }
+    if (normalizedCategory.includes('servicios') || normalizedCategory.includes('servicio')) {
+      return <Zap className="h-5 w-5" />;
+    }
+    return <Package className="h-5 w-5" />;
+  };
+
+  const totalAmount = Object.values(expensesByCategory).reduce((sum, value) => sum + value, 0);
+  
+  const categoryData: CategoryData[] = Object.entries(expensesByCategory)
+    .map(([category, value]) => ({
+      name: category,
+      value,
+      icon: getCategoryIcon(category),
+      percentage: totalAmount > 0 ? Math.round((value / totalAmount) * 100) : 0,
+      trend: 'stable' as const,
+      trendValue: 0
+    }))
+    .sort((a, b) => b.value - a.value)
+    .slice(0, 5);
+
+  if (categoryData.length === 0) {
+    return (
+      <Card className="neon-border bg-card/90 backdrop-blur-sm shadow-xl h-fit">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-xl font-semibold neon-text">
+            ¿En qué gastas más?
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="text-center py-8">
+          <Package className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <p className="text-muted-foreground">No hay transacciones registradas aún</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('es-CO', {

@@ -1,17 +1,28 @@
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, Area, AreaChart } from 'recharts';
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, Calendar } from 'lucide-react';
+import { useTransactions } from "@/hooks/useTransactions";
 
 const WeeklyTrendChart = () => {
-  const weeklyData = [
-    { week: 'Sem 1', amount: 320, date: '1-7 Jul' },
-    { week: 'Sem 2', amount: 287, date: '8-14 Jul' },
-    { week: 'Sem 3', amount: 294, date: '15-21 Jul' },
-    { week: 'Esta semana', amount: 330, date: '22-28 Jul' }
-  ];
+  const { weeklyTrend } = useTransactions();
+  const weeklyData = weeklyTrend;
+
+  if (weeklyData.length === 0) {
+    return (
+      <div className="neon-border bg-card/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl h-fit">
+        <div className="text-center py-8">
+          <Calendar className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+          <h2 className="text-xl font-semibold neon-text mb-2">Tendencia Semanal</h2>
+          <p className="text-muted-foreground">No hay suficientes datos para mostrar la tendencia</p>
+        </div>
+      </div>
+    );
+  }
 
   const currentWeek = weeklyData[weeklyData.length - 1];
   const previousWeek = weeklyData[weeklyData.length - 2];
-  const percentChange = ((currentWeek.amount - previousWeek.amount) / previousWeek.amount) * 100;
+  const percentChange = previousWeek && previousWeek.amount > 0 
+    ? ((currentWeek.amount - previousWeek.amount) / previousWeek.amount) * 100 
+    : 0;
   const average = weeklyData.reduce((sum, week) => sum + week.amount, 0) / weeklyData.length;
   const isIncreasing = percentChange > 0;
 
