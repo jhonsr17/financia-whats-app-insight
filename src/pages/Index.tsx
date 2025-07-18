@@ -2,10 +2,11 @@ import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import BudgetHero from "@/components/dashboard/BudgetHero";
 import CategoryExpenseCard from "@/components/dashboard/CategoryExpenseCard";
 import WeeklyTrendChart from "@/components/dashboard/WeeklyTrendChart";
+import AddExpenseForm from "@/components/dashboard/AddExpenseForm";
 import { useTransactions } from "@/hooks/useTransactions";
 
 const Index = () => {
-  const { totalSpent, todaySpent, weeklySpent, loading, transactions } = useTransactions();
+  const { totalSpent, todaySpent, weeklySpent, loading, transactions, refetch } = useTransactions();
   
   const totalBudget = 2500000; // $2.5M COP como presupuesto base
   const remainingAmount = totalBudget - totalSpent;
@@ -38,7 +39,12 @@ const Index = () => {
         <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
           <div className="text-center py-12">
             <h1 className="text-3xl font-bold mb-4">¡Bienvenido a FinancIA!</h1>
-            <p className="text-muted-foreground mb-8">Aún no tienes transacciones registradas. Conecta tu cuenta para comenzar.</p>
+            <p className="text-muted-foreground mb-8">Comienza registrando tu primer gasto</p>
+            
+            <div className="flex justify-center mb-8">
+              <AddExpenseForm onExpenseAdded={refetch} />
+            </div>
+            
             <div className="bg-card border rounded-lg p-6 max-w-md mx-auto">
               <p className="text-sm text-muted-foreground">
                 Una vez que registres transacciones, aquí verás tu dashboard con:
@@ -81,6 +87,11 @@ const Index = () => {
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
           <CategoryExpenseCard />
           <WeeklyTrendChart />
+        </div>
+
+        {/* Formulario para agregar gastos */}
+        <div className="flex justify-center">
+          <AddExpenseForm onExpenseAdded={refetch} />
         </div>
       </main>
     </div>
