@@ -20,21 +20,42 @@ export const useTransactions = () => {
   const fetchTransactions = async () => {
     try {
       setLoading(true);
+      
+      // Primero verificamos si el usuario está autenticado
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        console.log('Usuario no autenticado');
+        setTransactions([]);
+        return;
+      }
+
       const { data, error } = await supabase
         .from('transacciones')
         .select('*')
+        .eq('usuario_id', user.id)
         .order('creado_en', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching transactions:', error);
+        throw error;
+      }
       
+      console.log('Transacciones cargadas:', data);
       setTransactions(data || []);
     } catch (error) {
       console.error('Error fetching transactions:', error);
-      toast({
-        title: "Error",
-        description: "No se pudieron cargar las transacciones",
-        variant: "destructive",
-      });
+      // No mostrar toast si es solo que no hay usuario autenticado
+      if (error?.message?.includes('user_id') || error?.message?.includes('usuario_id')) {
+        console.log('Problema con autenticación o permisos');
+      } else {
+        toast({
+          title: "Error",
+          description: "No se pudieron cargar las transacciones",
+          variant: "destructive",
+        });
+      }
+      setTransactions([]);
     } finally {
       setLoading(false);
     }
