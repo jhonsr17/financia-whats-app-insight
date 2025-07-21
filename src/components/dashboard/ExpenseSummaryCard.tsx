@@ -6,9 +6,10 @@ interface ExpenseSummaryCardProps {
   currency: string;
   variant: "today" | "week" | "month" | "total" | "balance" | "income" | "today-income";
   isBalance?: boolean;
+  isLarge?: boolean;
 }
 
-const ExpenseSummaryCard = ({ title, amount, currency, variant, isBalance }: ExpenseSummaryCardProps) => {
+const ExpenseSummaryCard = ({ title, amount, currency, variant, isBalance, isLarge }: ExpenseSummaryCardProps) => {
   const getCardStyles = () => {
     switch (variant) {
       case "today":
@@ -35,12 +36,12 @@ const ExpenseSummaryCard = ({ title, amount, currency, variant, isBalance }: Exp
 
   return (
     <Card className={`${getCardStyles()} border transition-all duration-200 hover:scale-105`}>
-      <CardContent className="p-6">
+      <CardContent className={`${isLarge ? 'p-8' : 'p-6'}`}>
         <div className="space-y-2">
-          <h3 className="text-lg font-medium opacity-90">{title}</h3>
+          <h3 className={`${isLarge ? 'text-2xl' : 'text-lg'} font-medium opacity-90`}>{title}</h3>
           <div className="space-y-1">
-            <p className="text-3xl font-bold tracking-tight">{amount}</p>
-            <p className="text-sm opacity-75">{currency}</p>
+            <p className={`${isLarge ? 'text-5xl' : 'text-3xl'} font-bold tracking-tight`}>{amount}</p>
+            <p className={`${isLarge ? 'text-base' : 'text-sm'} opacity-75`}>{currency}</p>
           </div>
         </div>
       </CardContent>
