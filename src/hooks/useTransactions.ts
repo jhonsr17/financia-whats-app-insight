@@ -92,6 +92,12 @@ export const useTransactions = () => {
     .filter(t => t.tipo === 'gasto')
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
+  const totalIncome = transactions
+    .filter(t => t.tipo === 'ingreso')
+    .reduce((sum, t) => sum + (t.valor || 0), 0);
+
+  const balance = totalIncome - totalSpent;
+
   // Gasto de hoy - calculado usando fecha local del usuario
   const todaySpent = transactions
     .filter(t => {
@@ -103,10 +109,32 @@ export const useTransactions = () => {
     })
     .reduce((sum, t) => sum + (t.valor || 0), 0);
 
+  // Ingreso de hoy
+  const todayIncome = transactions
+    .filter(t => {
+      if (!t.creado_en || t.tipo !== 'ingreso') return false;
+      const today = new Date();
+      const transactionDate = new Date(t.creado_en);
+      
+      return today.toDateString() === transactionDate.toDateString();
+    })
+    .reduce((sum, t) => sum + (t.valor || 0), 0);
+
   // Gasto de la semana (últimos 7 días)
   const weeklySpent = transactions
     .filter(t => {
       if (!t.creado_en || t.tipo !== 'gasto') return false;
+      const today = new Date();
+      const transactionDate = new Date(t.creado_en);
+      const daysDifference = Math.floor((today.getTime() - transactionDate.getTime()) / (1000 * 60 * 60 * 24));
+      return daysDifference >= 0 && daysDifference < 7;
+    })
+    .reduce((sum, t) => sum + (t.valor || 0), 0);
+
+  // Ingreso de la semana
+  const weeklyIncome = transactions
+    .filter(t => {
+      if (!t.creado_en || t.tipo !== 'ingreso') return false;
       const today = new Date();
       const transactionDate = new Date(t.creado_en);
       const daysDifference = Math.floor((today.getTime() - transactionDate.getTime()) / (1000 * 60 * 60 * 24));
@@ -150,14 +178,18 @@ export const useTransactions = () => {
     return weeks;
   };
 
-  console.log('Métricas calculadas:', { totalSpent, todaySpent, weeklySpent });
+  console.log('Métricas calculadas:', { totalSpent, totalIncome, balance, todaySpent, todayIncome, weeklySpent, weeklyIncome });
 
   return {
     transactions,
     loading,
     totalSpent,
+    totalIncome,
+    balance,
     todaySpent,
+    todayIncome,
     weeklySpent,
+    weeklyIncome,
     expensesByCategory,
     weeklyTrend: getWeeklyTrend(),
     refetch: fetchTransactions

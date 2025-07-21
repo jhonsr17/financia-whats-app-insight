@@ -9,7 +9,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 
 interface AddExpenseFormProps {
-  onExpenseAdded: () => void;
+  onTransactionAdded: () => void;
 }
 
 const categories = [
@@ -23,10 +23,11 @@ const categories = [
   'Otros'
 ];
 
-export default function AddExpenseForm({ onExpenseAdded }: AddExpenseFormProps) {
+export default function AddExpenseForm({ onTransactionAdded }: AddExpenseFormProps) {
   const [valor, setValor] = useState('');
   const [categoria, setCategoria] = useState('');
   const [descripcion, setDescripcion] = useState('');
+  const [tipo, setTipo] = useState<'gasto' | 'ingreso'>('gasto');
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -62,24 +63,24 @@ export default function AddExpenseForm({ onExpenseAdded }: AddExpenseFormProps) 
           valor: parseFloat(valor),
           categoria,
           descripcion: descripcion || null,
-          tipo: 'gasto',
+          tipo: tipo,
           usuario_id: user.id,
           creado_en: new Date().toISOString()
         });
 
       if (error) throw error;
 
-      console.log('Gasto registrado exitosamente:', {
+      console.log(`${tipo} registrado exitosamente:`, {
         valor: parseFloat(valor),
         categoria,
         descripcion,
-        tipo: 'gasto',
+        tipo: tipo,
         usuario_id: user.id
       });
 
       toast({
         title: "Éxito",
-        description: `Gasto de $${parseFloat(valor).toLocaleString()} COP registrado correctamente`,
+        description: `${tipo === 'gasto' ? 'Gasto' : 'Ingreso'} de $${parseFloat(valor).toLocaleString()} COP registrado correctamente`,
       });
 
       // Limpiar formulario
@@ -89,12 +90,12 @@ export default function AddExpenseForm({ onExpenseAdded }: AddExpenseFormProps) 
 
       // Actualizar los datos inmediatamente
       console.log('Actualizando métricas...');
-      onExpenseAdded();
+      onTransactionAdded();
     } catch (error) {
-      console.error('Error registrando gasto:', error);
+      console.error(`Error registrando ${tipo}:`, error);
       toast({
         title: "Error",
-        description: "No se pudo registrar el gasto",
+        description: `No se pudo registrar el ${tipo}`,
         variant: "destructive",
       });
     } finally {
@@ -107,14 +108,27 @@ export default function AddExpenseForm({ onExpenseAdded }: AddExpenseFormProps) 
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <PlusCircle className="h-5 w-5" />
-          Registrar Gasto
+          Registrar Transacción
         </CardTitle>
         <CardDescription>
-          Añade un nuevo gasto y visualízalo en tiempo real
+          Añade un nuevo gasto o ingreso y visualízalo en tiempo real
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="tipo">Tipo *</Label>
+            <Select value={tipo} onValueChange={(value: 'gasto' | 'ingreso') => setTipo(value)} required>
+              <SelectTrigger>
+                <SelectValue placeholder="Selecciona el tipo" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="gasto">💸 Gasto</SelectItem>
+                <SelectItem value="ingreso">💰 Ingreso</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           <div>
             <Label htmlFor="valor">Valor (COP) *</Label>
             <Input
@@ -156,7 +170,7 @@ export default function AddExpenseForm({ onExpenseAdded }: AddExpenseFormProps) 
           </div>
 
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Registrando...' : 'Registrar Gasto'}
+            {loading ? 'Registrando...' : `Registrar ${tipo === 'gasto' ? 'Gasto' : 'Ingreso'}`}
           </Button>
         </form>
       </CardContent>

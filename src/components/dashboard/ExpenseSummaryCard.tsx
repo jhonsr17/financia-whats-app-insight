@@ -4,10 +4,11 @@ interface ExpenseSummaryCardProps {
   title: string;
   amount: string;
   currency: string;
-  variant: "today" | "week" | "month" | "total";
+  variant: "today" | "week" | "month" | "total" | "balance" | "income" | "today-income";
+  isBalance?: boolean;
 }
 
-const ExpenseSummaryCard = ({ title, amount, currency, variant }: ExpenseSummaryCardProps) => {
+const ExpenseSummaryCard = ({ title, amount, currency, variant, isBalance }: ExpenseSummaryCardProps) => {
   const getCardStyles = () => {
     switch (variant) {
       case "today":
@@ -18,6 +19,15 @@ const ExpenseSummaryCard = ({ title, amount, currency, variant }: ExpenseSummary
         return "bg-gradient-to-br from-purple-600 to-purple-500 text-white border-purple-500";
       case "total":
         return "bg-gradient-to-br from-slate-600 to-slate-500 text-white border-slate-500";
+      case "balance":
+        const balanceNumber = parseFloat(amount.replace(/[^\d.-]/g, ''));
+        return balanceNumber >= 0 
+          ? "bg-gradient-to-br from-green-600 to-green-500 text-white border-green-500"
+          : "bg-gradient-to-br from-red-600 to-red-500 text-white border-red-500";
+      case "income":
+        return "bg-gradient-to-br from-teal-600 to-teal-500 text-white border-teal-500";
+      case "today-income":
+        return "bg-gradient-to-br from-cyan-600 to-cyan-500 text-white border-cyan-500";
       default:
         return "bg-card text-card-foreground";
     }

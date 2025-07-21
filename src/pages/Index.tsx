@@ -39,7 +39,7 @@ const Index = () => {
             </div>
             
             <div className="bg-card/50 backdrop-blur border rounded-lg p-6">
-              <AddExpenseForm onExpenseAdded={refetch} />
+              <AddExpenseForm onTransactionAdded={refetch} />
             </div>
           </div>
         ) : (
@@ -86,7 +86,7 @@ const Index = () => {
             {/* Formulario para agregar gastos */}
             <div className="bg-card/50 backdrop-blur border rounded-lg p-6">
               <h3 className="text-lg font-semibold mb-4">Agregar Nueva Transacción</h3>
-              <AddExpenseForm onExpenseAdded={refetch} />
+              <AddExpenseForm onTransactionAdded={refetch} />
             </div>
           </div>
         )}
