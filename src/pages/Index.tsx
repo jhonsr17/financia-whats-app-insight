@@ -4,12 +4,9 @@ import DashboardStats from "@/components/dashboard/DashboardStats";
 import AddExpenseForm from "@/components/dashboard/AddExpenseForm";
 import BudgetTable from "@/components/dashboard/BudgetTable";
 import { useTransactions } from "@/hooks/useTransactions";
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 const Index = () => {
   const { loading, transactions, refetch, expensesByCategory } = useTransactions();
-  const [showBudget, setShowBudget] = useState(false);
 
   // Datos de presupuesto de ejemplo
   const budgetData = [
@@ -61,21 +58,8 @@ const Index = () => {
             {/* Métricas de gastos */}
             <DashboardStats />
 
-            {/* Botón para mostrar presupuesto */}
-            <div className="flex justify-center">
-              <Button 
-                onClick={() => setShowBudget(!showBudget)}
-                variant={showBudget ? "default" : "outline"}
-                className="px-8 py-2"
-              >
-                {showBudget ? "Ocultar Presupuesto" : "Ver Presupuesto"}
-              </Button>
-            </div>
-
             {/* Tabla de presupuesto */}
-            {showBudget && (
-              <BudgetTable budgetData={budgetData} />
-            )}
+            <BudgetTable budgetData={budgetData} />
 
             {/* Grid de componentes principales */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
