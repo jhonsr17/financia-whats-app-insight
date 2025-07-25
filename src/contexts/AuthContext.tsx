@@ -6,7 +6,7 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: AuthError }>;
-  signUp: (email: string, password: string) => Promise<{ error?: AuthError }>;
+  signUp: (email: string, password: string, nombre?: string, telefono?: string) => Promise<{ error?: AuthError }>;
   signOut: () => Promise<void>;
 }
 
@@ -53,11 +53,40 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { error };
   };
 
-  const signUp = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signUp({
+  const signUp = async (email: string, password: string, nombre?: string, telefono?: string) => {
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: {
+          full_name: nombre
+        }
+      }
     });
+
+    // Si el registro fue exitoso y tenemos datos adicionales, insertarlos en la tabla usuarios
+    if (!error && data.user && (nombre || telefono)) {
+      try {
+        const { error: insertError } = await supabase
+          .from('usuarios')
+          .insert({
+            id: data.user.id,
+            nombre: nombre || null,
+            telefono: telefono || null,
+            gmail: email
+          });
+        
+        if (insertError) {
+          console.error('Error al insertar datos del usuario:', insertError);
+        }
+      } catch (insertError) {
+        console.error('Error al insertar en usuarios:', insertError);
+      }
+    }
+
     return { error };
   };
 

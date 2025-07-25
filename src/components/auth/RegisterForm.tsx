@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 
 interface RegisterFormProps {
@@ -11,9 +12,12 @@ interface RegisterFormProps {
 }
 
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
+  const [nombre, setNombre] = useState('');
   const [email, setEmail] = useState('');
+  const [telefono, setTelefono] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const { signUp } = useAuth();
   const { toast } = useToast();
@@ -21,6 +25,15 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!nombre.trim()) {
+      toast({
+        title: "Error",
+        description: "El nombre completo es requerido",
+        variant: "destructive",
+      });
+      return;
+    }
+
     if (password !== confirmPassword) {
       toast({
         title: "Error",
@@ -30,9 +43,18 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
       return;
     }
 
+    if (!acceptTerms) {
+      toast({
+        title: "Error",
+        description: "Debes aceptar los términos y condiciones",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
-    const { error } = await signUp(email, password);
+    const { error } = await signUp(email, password, nombre, telefono);
 
     if (error) {
       toast({
@@ -60,6 +82,17 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
+            <Label htmlFor="nombre">Nombre completo</Label>
+            <Input
+              id="nombre"
+              type="text"
+              placeholder="Tu nombre completo"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+              required
+            />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -71,26 +104,47 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onToggleMode }) => {
             />
           </div>
           <div className="space-y-2">
+            <Label htmlFor="telefono">Número de teléfono</Label>
+            <Input
+              id="telefono"
+              type="tel"
+              placeholder="300 123 4567"
+              value={telefono}
+              onChange={(e) => setTelefono(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="password">Contraseña</Label>
             <Input
               id="password"
               type="password"
-              placeholder="••••••••"
+              placeholder="Mínimo 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
+            <Label htmlFor="confirmPassword">Confirmar contraseña</Label>
             <Input
               id="confirmPassword"
               type="password"
-              placeholder="••••••••"
+              placeholder="Confirma tu contraseña"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="terms"
+              checked={acceptTerms}
+              onCheckedChange={(checked) => setAcceptTerms(checked as boolean)}
+            />
+            <Label htmlFor="terms" className="text-sm">
+              Acepto los términos y condiciones y la política de privacidad
+            </Label>
           </div>
           <Button
             type="submit"
