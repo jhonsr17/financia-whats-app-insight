@@ -72,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       try {
         const { error: insertError } = await supabase
           .from('usuarios')
-          .insert({
+          .upsert({
             id: data.user.id,
             nombre: nombre || null,
             telefono: telefono || null,
